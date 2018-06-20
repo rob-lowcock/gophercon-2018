@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	fmt.Println("Welcome to the Sainsbury's GopherCon Challenge 2018!")
@@ -19,5 +21,34 @@ func main() {
 }
 
 func CalculateHouses(input string) int {
-	return 0
+	currentX := 0
+	currentY := 0
+
+	type coord struct {
+		X int
+		Y int
+	}
+
+	visitedCoords := map[coord]int{coord{0, 0}: 1}
+	for _, c := range input {
+		switch c {
+		case '<':
+			currentX--
+		case '>':
+			currentX++
+		case '^':
+			currentY++
+		case 'v':
+			currentY--
+		}
+
+		coords := coord{currentX, currentY}
+		if _, ok := visitedCoords[coords]; ok {
+			visitedCoords[coords]++
+		} else {
+			visitedCoords[coords] = 1
+		}
+	}
+
+	return len(visitedCoords)
 }
